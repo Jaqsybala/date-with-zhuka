@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Приглашение на свидание в ресторан Felice">
+  <meta name="theme-color" content="#e83e8c">
+  <title>Приглашение на свидание 💌</title>
+  
+  <!-- Preload важных ресурсов -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" as="style">
+  
+  <!-- Montserrat Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #e83e8c;
+      --primary-dark: #d81b60;
+      --secondary-color: #3498db;
+      --secondary-dark: #2980b9;
+      --text-color: #333;
+      --text-light: #666;
+      --text-lighter: #888;
+      --border-color: #dddddd;
+      --background-light: #f5f5f5;
+      --background-white: #ffffff;
+      --envelope-width-desktop: 320px;
+      --envelope-width-mobile: 280px;
+      --envelope-width-small: 260px;
+      --envelope-height-initial: 220px;
+      --envelope-height-mobile: 200px;
+      --envelope-height-small: 180px;
+      --max-height-desktop: 520px;
+      --max-height-mobile: 460px;
+      --border-radius: 8px;
+      --shadow-normal: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      --shadow-button: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --transition-normal: all 0.3s ease;
+      --transition-envelope: height 1s ease-in-out;
+      --content-padding: 1.5rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background: var(--background-light);
+      font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+      color: var(--text-color);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    
+    /* Основной контейнер */
+    .envelope-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100%;
+      padding: 15px;
+      box-sizing: border-box;
+      z-index: 5;
+    }
+    
+    /* Анимированный конверт */
+    .envelope {
+      position: relative;
+      width: var(--envelope-width-desktop);
+      height: var(--envelope-height-initial);
+      background-color: var(--background-white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-normal);
+      cursor: pointer;
+      overflow: hidden;
+      z-index: 2;
+      transition: var(--transition-envelope);
+      max-height: var(--max-height-desktop);
+    }
+    
+    /* Верхний клапан конверта */
+    .envelope-flap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform-origin: 50% 0%;
+      transition: transform 1s ease-in-out;
+      z-index: 3;
+      overflow: hidden;
+    }
+    
+    .envelope-flap.open {
+      transform: translateY(-100%);
+    }
+    
+    /* Тело конверта */
+    .envelope-body {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: var(--background-white);
+    }
+    
+    /* Письмо внутри конверта */
+    .envelope-letter {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: auto;
+      min-height: 100%;
+      background: var(--background-white);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: var(--content-padding);
+      text-align: center;
+      box-sizing: border-box;
+    }
+    
+    /* Содержимое письма */
+    .invite-content {
+      width: 100%;
+      opacity: 0;
+      animation: showContent 1.2s ease-in-out forwards;
+      animation-delay: 0.8s;
+    }
+    
+    /* Заголовок приглашения */
+    .invite-title {
+      color: var(--text-light);
+      font-size: 16px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+    
+    /* Блок с информацией о месте и времени */
+    .location-time {
+      margin: 15px 0;
+      color: var(--text-light);
+    }
+    
+    .location-time p {
+      margin: 8px 0;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .location-time .icon {
+      color: var(--primary-color);
+      margin-right: 6px;
+    }
+    
+    /* Кнопка принятия приглашения */
+    .invite-btn {
+      background: var(--primary-color);
+      color: var(--background-white);
+      border: none;
+      border-radius: var(--border-radius);
+      padding: 12px 0;
+      font-size: 16px;
+      font-weight: 500;
+      width: 100%;
+      cursor: pointer;
+      transition: var(--transition-normal);
+      margin-bottom: 15px;
+    }
+    
+    .invite-btn:hover {
+      background: var(--primary-dark);
+    }
+    
+    .invite-btn:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(232, 62, 140, 0.3);
+    }
+    
+    .invite-btn:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+    
+    /* Блок, отображаемый после принятия приглашения */
+    .after-accept {
+      width: 100%;
+      margin-top: 15px;
+      display: none;
+    }
+    
+    .after-accept.visible {
+      display: block;
+      animation: fadeIn 0.8s ease forwards;
+    }
+    
+    .after-accept p {
+      font-size: 16px;
+      color: var(--primary-color);
+      font-weight: 700;
+      margin: 10px 0;
+    }
+    
+    /* Кнопки и ссылки в блоке после принятия */
+    .calendar-btn,
+    .map-link {
+      display: block;
+      width: 100%;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border-radius: var(--border-radius);
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      box-shadow: var(--shadow-button);
+      transition: var(--transition-normal);
+    }
+    
+    .calendar-btn {
+      background: #888;
+      color: var(--background-white);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .calendar-btn:hover {
+      background: #777;
+    }
+    
+    .map-link {
+      background: var(--secondary-color);
+      color: var(--background-white);
+      text-decoration: none;
+    }
+    
+    .map-link:hover {
+      background: var(--secondary-dark);
+    }
+    
+    /* Индикатор открытия */
+    .envelope::after {
+      content: "↓ Нажми, чтобы открыть ↓";
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-lighter);
+      opacity: 0;
+      animation: fadeInOut 2s infinite;
+      z-index: 4;
+    }
+    
+    .envelope.opened::after {
+      display: none;
+    }
+    
+    /* Контейнер для падающих сердечек */
+    .falling-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    /* Падающее сердце */
+    .falling-heart {
+      position: fixed;
+      top: -40px;
+      width: 32px;
+      height: 32px;
+      pointer-events: none;
+      animation: fall linear infinite;
+    }
+    
+    /* Анимации */
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+    @keyframes showContent {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fall {
+      0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.8; }
+      80% { opacity: 0.9; }
+      100% { transform: translateY(110vh) scale(0.8) rotate(360deg); opacity: 0.2; }
+    }
+    
+    /* Адаптивность для мобильных устройств */
+    @media (max-width: 480px) {
+      :root {
+        --content-padding: 1rem;
+      }
+      
+      .envelope {
+        width: var(--envelope-width-mobile);
+        height: var(--envelope-height-mobile);
+        max-height: var(--max-height-mobile);
+      }
+      
+      .invite-title {
+        font-size: 15px;
+      }
+      
+      .location-time p {
+        font-size: 13px;
+      }
+      
+      .invite-btn {
+        font-size: 15px;
+      }
+      
+      .after-accept p {
+        font-size: 15px;
+      }
+      
+      .calendar-btn, 
+      .map-link {
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+    }
+    
+    /* Еще более маленькие экраны */
+    @media (max-width: 320px) {
+      .envelope {
+        width: var(--envelope-width-small);
+        height: var(--envelope-height-small);
+      }
+      
+      .invite-title {
+        font-size: 14px;
+      }
+      
+      .location-time p {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Анимированные сердечки -->
+  <div class="falling-hearts" id="fallingHearts"></div>
+  
+  <div class="envelope-container">
+    <div class="envelope" id="envelope">
+      <div class="envelope-flap" id="envelopeFlap">
+        <!-- Верхняя часть конверта -->
+        <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,0 L320,0 L320,220 L0,220 Z" fill="#ffffff" stroke="#dddddd" stroke-width="1" />
+          <path d="M0,0 L160,110 L320,0" fill="#ffffff" stroke="#dddddd" stroke-width="1" />
+        </svg>
+      </div>
+      
+      <div class="envelope-body">
+        <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,0 L320,0 L320,220 L0,220 Z" fill="#ffffff" stroke="#dddddd" stroke-width="1" />
+          <!-- Декоративные линии по бокам -->
+          <path d="M20,20 L20,200" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="2,2" />
+          <path d="M300,20 L300,200" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="2,2" />
+        </svg>
+      </div>
+      
+      <div class="envelope-letter">
+        <div class="invite-content">
+          <p class="invite-title">Я хочу пригласить тебя на свидание</p>
+          
+          <div class="location-time">
+            <p>
+              <span class="icon">📍</span>
+              <strong>Ресторан «Felice»,<br>Проспект Сарыарка, 1</strong>
+            </p>
+            <p>
+              <span class="icon">🕖</span>
+              <strong>9 августа, 19:00</strong>
+            </p>
+          </div>
+          
+          <button type="button" class="invite-btn" id="acceptBtn">
+            Принять
+          </button>
+          
+          <div class="after-accept" id="afterAccept">
+            <p>До встречи, Жука 💕</p>
+            <button type="button" class="calendar-btn" id="calendarBtn">
+              📁 Добавить в календарь
+            </button>
+            <a href="https://2gis.kz/astana/firm/70000001029447589?m=71.40945%2C51.158601%2F16" class="map-link" target="_blank" rel="noopener">
+              🗺️ Открыть на карте
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DOM-элементы
+    const envelope = document.getElementById('envelope');
+    const envelopeFlap = document.getElementById('envelopeFlap');
+    const acceptBtn = document.getElementById('acceptBtn');
+    const afterAccept = document.getElementById('afterAccept');
+    const calendarBtn = document.getElementById('calendarBtn');
+    const fallingHearts = document.getElementById('fallingHearts');
+    
+    // Конфигурация
+    const config = {
+      heartColors: ["#f9d77e", "#e6c777", "#d4af37", "#f8c9c9", "#f5b5b5", "#e83e8c"],
+      heartInterval: 500, // интервал создания сердец в миллисекундах
+      heartLifetime: 6000, // время жизни сердец в миллисекундах
+      envelopeState: {
+        isOpened: false
+      }
+    };
+    
+    // Создание сердечка
+    function createHeart() {
+      const heart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      heart.setAttribute("viewBox", "0 0 32 29");
+      heart.setAttribute("class", "falling-heart");
+      heart.style.left = Math.random() * 98 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+      
+      // Адаптивный размер
+      const isMobile = window.innerWidth <= 480;
+      const size = isMobile ? (20 + Math.random() * 12) : (30 + Math.random() * 15);
+      heart.style.width = size + "px";
+      heart.style.height = size + "px";
+      
+      // Случайный выбор между сердечком и лепестком
+      if (Math.random() > 0.5) {
+        heart.innerHTML = `<path d='M23.6,2.6c-2.6,0-4.9,1.7-5.6,4.1C16.3,4.3,14,2.6,11.4,2.6C7.2,2.6,4,6.1,4,10.1c0,7.1,12,15.3,12,15.3 s12-8.2,12-15.3C28,6.1,24.8,2.6,23.6,2.6z' fill='${config.heartColors[Math.floor(Math.random()*config.heartColors.length)]}'/>`;
+      } else {
+        heart.innerHTML = `<ellipse cx="16" cy="15" rx="10" ry="15" transform="rotate(${Math.random() * 360} 16 15)" fill='${config.heartColors[Math.floor(Math.random()*config.heartColors.length)]}' opacity="0.7"/>`;
+      }
+      
+      fallingHearts.appendChild(heart);
+      
+      // Удаляем сердечко после анимации для очистки DOM
+      setTimeout(() => {
+        if (heart && heart.parentNode) {
+          heart.parentNode.removeChild(heart);
+        }
+      }, config.heartLifetime);
+    }
+    
+    // Обновляем высоту конверта
+    function updateEnvelopeHeight() {
+      if (!config.envelopeState.isOpened) return;
+      
+      const letter = document.querySelector('.envelope-letter');
+      
+      // Получаем актуальную высоту содержимого
+      letter.getBoundingClientRect();
+      const contentHeight = letter.scrollHeight;
+      
+      // Определяем отступ в зависимости от устройства и состояния
+      const afterAcceptVisible = afterAccept.classList.contains('visible');
+      let padding = window.innerWidth <= 480 ? 40 : 30;
+      
+      // Добавляем дополнительное пространство если показан блок после принятия
+      if (afterAcceptVisible) {
+        padding += window.innerWidth <= 480 ? 50 : 40;
+      }
+      
+      // Определяем максимальную высоту
+      const maxHeight = window.innerWidth <= 480 ? 370 : 380;
+      
+      // Рассчитываем финальную высоту с ограничением максимума
+      const finalHeight = Math.min(contentHeight + padding, maxHeight);
+      
+      // Плавно обновляем высоту
+      envelope.style.height = `${finalHeight}px`;
+    }
+    
+    // Открытие конверта
+    function openEnvelope() {
+      if (config.envelopeState.isOpened) return;
+      
+      // Отмечаем, что конверт открыт
+      config.envelopeState.isOpened = true;
+      
+      // Добавляем классы для анимации
+      envelopeFlap.classList.add('open');
+      envelope.classList.add('opened');
+      
+      // Последовательность обновлений для плавного раскрытия
+      setTimeout(updateEnvelopeHeight, 600);
+      setTimeout(updateEnvelopeHeight, 1000);
+    }
+    
+    // Принятие приглашения
+    function acceptInvitation() {
+      // Делаем кнопку неактивной
+      acceptBtn.disabled = true;
+      
+      // Показываем блок после принятия
+      afterAccept.classList.add('visible');
+      
+      // Обновляем высоту конверта
+      setTimeout(updateEnvelopeHeight, 10);
+      setTimeout(updateEnvelopeHeight, 300);
+      setTimeout(updateEnvelopeHeight, 800);
+    }
+    
+    // Создание и скачивание файла календаря
+    function downloadCalendarFile() {
+      const icsContent = `
+            BEGIN:VCALENDAR
+            VERSION:2.0
+            PRODID:-//Date Invitation//EN
+            BEGIN:VEVENT
+            SUMMARY:Свидание 💖
+            DESCRIPTION:Жду тебя на романтическом вечере 💕
+            LOCATION:Ресторан «Felice», Проспект Сарыарка, 1
+            DTSTART:20250809T160000Z
+            DTEND:20250809T180000Z
+            END:VEVENT
+            END:VCALENDAR`;
+
+      const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      
+      // Создаем ссылку для скачивания и эмулируем клик
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "invite.ics";
+      document.body.appendChild(link);
+      link.click();
+      
+      // Очищаем ресурсы
+      setTimeout(() => {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      }, 100);
+    }
+    
+    // Обработчики событий
+    envelope.addEventListener('click', openEnvelope);
+    acceptBtn.addEventListener('click', acceptInvitation);
+    calendarBtn.addEventListener('click', downloadCalendarFile);
+    window.addEventListener('resize', updateEnvelopeHeight);
+    
+    // Инициализация падающих сердец
+    const heartInterval = setInterval(createHeart, config.heartInterval);
+    
+    // Генерация первых сердец при загрузке
+    window.addEventListener('DOMContentLoaded', () => {
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => createHeart(), Math.random() * 1500);
+      }
+    });
+  </script>
+</body>
+</html>
