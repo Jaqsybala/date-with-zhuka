@@ -25,3 +25,5 @@
 ### Node ###
 node_modules/
 .env
+dist/
+*.stackdump
