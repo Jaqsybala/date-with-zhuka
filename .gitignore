@@ -21,3 +21,44 @@
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
+
+### Dependencies ###
+node_modules/
+
+### Build ###
+dist/
+dist-ssr/
+*.local
+
+### Environment ###
+.env
+.env.*
+!.env.example
+
+### Logs ###
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+### OS ###
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+### Crash dumps ###
+*.stackdump
+
+### CodeGraph (local index) ###
+.codegraph/*
+!.codegraph/.gitignore
+
+### Test / coverage ###
+coverage/
+
+### Editor ###
+*.swp
+*.swo
+*~
