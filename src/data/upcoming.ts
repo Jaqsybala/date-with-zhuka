@@ -28,17 +28,19 @@ export interface UpcomingEvent {
 export const upcomingEvents: UpcomingEvent[] = [
   {
     id: '1',
-    date: '2026-08-09T19:00:00',
-    dateLabel: '09.08.2026',
-    title: 'Наша годовщина',
-    description: 'Один из важных дней в нашей жизни',
-    emoji: '💖',
+    date: '2026-08-30T20:00:00',
+    dateLabel: '30 августа 2026, 20:00',
+    title: "Сольный концерт M'Dee",
+    description:
+      "Большой сольный концерт M'Dee в Астане — живые хиты, атмосфера и мы вдвоём. Два билета уже у меня, тебе остаётся только прийти и насладиться вечером.",
+    emoji: '🎤',
     location: {
-      name: 'Ginza',
-      address: 'Проспект Туран, 15',
-      mapUrl: 'https://2gis.kz/astana/firm/70000001036217339?m=71.411566%2C51.147466%2F16',
-      venueUrl: 'https://www.instagram.com/ginza.astana',
+      name: 'Конгресс-центр',
+      address: 'ул. Гейдара Алиева, 12, Астана',
+      mapUrl: 'https://2gis.kz/astana/firm/70000001033293245',
+      venueUrl: 'https://ticketon.kz/concerts/event/tckt2-solnyy-kontsert-mdee-astana',
     },
-    note: 'Платье, в котором ты будешь сиять, как настоящая звезда. ✨',
-  }
+    isSurprise: true,
+    note: 'Будь готова к 19:30 — заберу тебя. Наряд, в котором захочется петь и танцевать всю ночь. 🎶',
+  },
 ];
