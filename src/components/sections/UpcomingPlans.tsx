@@ -24,6 +24,24 @@ function formatCountdown(days: number, hours: number, minutes: number): string {
   return `через ${minutes} мин.`;
 }
 
+interface SpotifyEmbedProps {
+  trackId: string;
+}
+
+function SpotifyEmbed({ trackId }: SpotifyEmbedProps) {
+  return (
+    <iframe
+      title="Spotify player"
+      src={`https://open.spotify.com/embed/track/${trackId}?theme=0`}
+      width="100%"
+      height="152"
+      style={{ borderRadius: '12px', border: 'none' }}
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+    />
+  );
+}
+
 interface ActionLinkProps {
   href: string;
   label: string;
@@ -99,7 +117,7 @@ function FeaturedEvent({ event, reduced }: FeaturedEventProps) {
             </p>
           )}
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 mb-5">
             {event.location.name && (
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm bg-stone-100/80 dark:bg-stone-800/60 text-stone-600 dark:text-stone-300">
                 📍 {event.location.name}
@@ -112,6 +130,15 @@ function FeaturedEvent({ event, reduced }: FeaturedEventProps) {
               <ActionLink href={event.location.venueUrl} label="Заведение" icon="🔗" />
             )}
           </div>
+
+          {event.spotifyTrackId && (
+            <div>
+              <p className="text-base font-serif font-semibold text-rose-primary mb-2">
+                Твоя самая любимая песня
+              </p>
+              <SpotifyEmbed trackId={event.spotifyTrackId} />
+            </div>
+          )}
         </>
       )}
     </motion.div>
@@ -233,6 +260,14 @@ function EventCard({ event, index, reduced, past = false }: EventCardProps) {
                       </button>
                     )}
                   </div>
+                  {event.spotifyTrackId && (
+                    <div>
+                      <p className="text-base font-serif font-semibold text-rose-primary mb-2">
+                        Твоя самая любимая песня
+                      </p>
+                      <SpotifyEmbed trackId={event.spotifyTrackId} />
+                    </div>
+                  )}
                 </>
               )}
             </div>

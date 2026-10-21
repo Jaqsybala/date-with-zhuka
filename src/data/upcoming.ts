@@ -23,6 +23,8 @@ export interface UpcomingEvent {
   isSurprise?: boolean;
   /** Заметка: «оденься тепло», «будь готова в 18:30» и т.п. */
   note?: string;
+  /** ID трека Spotify для встроенного плеера, напр. '6IiT1Pkuu4qs1pOSeIZ9K1' */
+  spotifyTrackId?: string;
 }
 
 export const upcomingEvents: UpcomingEvent[] = [
@@ -42,5 +44,20 @@ export const upcomingEvents: UpcomingEvent[] = [
     },
     isSurprise: true,
     note: 'Будь готова к 19:30 — заберу тебя. Наряд, в котором захочется петь и танцевать всю ночь. 🎶',
+  },
+  {
+    id: '2',
+    date: '2026-10-26T00:00:00',
+    dateLabel: '26 октября 2026',
+    title: 'Твой день рождения',
+    description:
+      'День рождения у самой лучшей, шикарной, умной, доброй и красивой девушки на свете. Я очень тебя люблю и хочу, чтобы твой день был особенным.',
+    emoji: '🎂',
+    location: {
+      name: '',
+    },
+    isSurprise: false,
+    note: 'С днём рождения, любовь моя ❤️ Пусть этот год принесёт тебе всё, чего ты заслуживаешь — а ты заслуживаешь всего.',
+    spotifyTrackId: '6IiT1Pkuu4qs1pOSeIZ9K1',
   },
 ];
